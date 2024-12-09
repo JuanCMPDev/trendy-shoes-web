@@ -1,101 +1,76 @@
-import Image from "next/image";
+"use client"
+
+import { Header } from '@/components/header'
+import { BestSellersCarousel } from '@/components/best-sellers-carousel'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
+import Image from 'next/image'
+import { useState } from 'react'
+import { UseEmblaCarouselType } from 'embla-carousel-react'
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [, setEmblaApi] = useState<UseEmblaCarouselType[1] | null>(null)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main>
+        <section className="relative min-h-screen flex flex-col justify-center pt-[140px] pb-12 overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 dark:from-pink-950 dark:via-purple-950 dark:to-blue-950"></div>
+            <div className="absolute inset-0 opacity-30 dark:opacity-40 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-pink-300 via-purple-200 to-blue-300 dark:from-pink-700 dark:via-purple-800 dark:to-blue-700"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_var(--tw-gradient-stops))] from-transparent via-pink-200/30 to-transparent dark:via-pink-800/30"></div>
+          </div>
+          <div className="relative z-10 py-16 px-4">
+            <div className="max-w-7xl mx-auto">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-8 text-center font-serif">
+                Nuestros Más Vendidos
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+                Descubre nuestra selección de productos más populares, elegidos por nuestros clientes más exigentes.
+              </p>
+            </div>
+            <div className="relative">
+              <BestSellersCarousel setEmblaApi={setEmblaApi} />
+            </div>
+          </div>
+        </section>
+        <section className="bg-background py-16">
+          <div className="container mx-auto px-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4 text-center font-serif">Bienvenida a Trendy Shoes</h1>
+            <p className="text-xl text-muted-foreground text-center mb-12 max-w-2xl mx-auto">Descubre nuestra exquisita colección de zapatos y accesorios de moda, diseñados para la mujer moderna y sofisticada.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card key={i} className="bg-card shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+                  <CardHeader>
+                    <CardTitle className="text-primary text-2xl">Producto Destacado {i}</CardTitle>
+                    <CardDescription className="text-base">Una joya de nuestra colección</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="relative overflow-hidden rounded-md">
+                      <Image
+                        src={`/placeholder.svg?height=200&width=300&text=Producto+${i}`}
+                        alt={`Producto ${i}`}
+                        width={300}
+                        height={200}
+                        className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                        <Button variant="secondary" className="text-white bg-primary hover:bg-primary/90">Ver Detalles</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex justify-between items-center">
+                    <span className="text-lg font-semibold text-primary">$99.99</span>
+                    <Button variant="outline">Añadir al Carrito</Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }
+
